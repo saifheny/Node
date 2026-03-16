@@ -7,19 +7,20 @@
     <style>
         body { font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }
         #chat-box { border: 1px solid #ccc; height: 300px; overflow-y: scroll; padding: 10px; margin-bottom: 10px; }
-        .message { margin-bottom: 10px; padding: 5px; background: #f1f1f1; border-radius: 5px; }
-        #msg-input { width: 70%; padding: 10px; }
-        button { padding: 10px; cursor: pointer; }
+        .message { margin-bottom: 10px; padding: 8px; background: #e9f5ff; border-radius: 5px; }
+        #msg-input { width: 65%; padding: 10px; }
+        #sender-name { width: 20%; padding: 10px; }
+        button { padding: 10px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 4px;}
+        #enable-notifications { background: #28a745; margin-bottom: 15px;}
     </style>
 </head>
 <body>
     <h2>تطبيق دردشة بسيط (MVP)</h2>
     <button id="enable-notifications">تفعيل الإشعارات 🔔</button>
-    <br><br>
     
     <div id="chat-box"></div>
     
-    <input type="text" id="sender-name" placeholder="اسمك" style="width: 20%; padding: 10px;">
+    <input type="text" id="sender-name" placeholder="اسمك">
     <input type="text" id="msg-input" placeholder="اكتب رسالتك هنا...">
     <button id="send-btn">إرسال</button>
 
