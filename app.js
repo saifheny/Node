@@ -1,12 +1,13 @@
-// 1. ضع إعدادات Firebase الخاصة بك هنا
+// إعداداتك الخاصة بـ Firebase
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyAjE-2q6PONBkCin9ZN22gDp9Q8pAH9ZW8",
+    authDomain: "story-97cf7.firebaseapp.com",
+    databaseURL: "https://story-97cf7-default-rtdb.firebaseio.com",
+    projectId: "story-97cf7",
+    storageBucket: "story-97cf7.firebasestorage.app",
+    messagingSenderId: "742801388214",
+    appId: "1:742801388214:web:32a305a8057b0582c5ec17",
+    measurementId: "G-9DPPWX7CF0"
 };
 
 // تهيئة Firebase
@@ -14,12 +15,12 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const messaging = firebase.messaging();
 
-// 2. المفتاح العام للإشعارات
-const VAPID_KEY = "YOUR_VAPID_KEY_HERE";
+// مفتاح الـ VAPID الخاص بك
+const VAPID_KEY = "BFKrRIt1JQLuYy78HJOQZrOSXYZdmKqd54PFVmysxkhEPoY_XW4qkTYEjFOFeDJ8Ffo7rHWn4isp2aV-VQFqPcc";
 
 let currentToken = "";
 
-// طلب صلاحية الإشعارات والحصول على التوكن
+// طلب صلاحية الإشعارات
 document.getElementById('enable-notifications').addEventListener('click', async () => {
     try {
         const permission = await Notification.requestPermission();
@@ -27,7 +28,7 @@ document.getElementById('enable-notifications').addEventListener('click', async 
             currentToken = await messaging.getToken({ vapidKey: VAPID_KEY });
             console.log("FCM Token:", currentToken);
             
-            // حفظ التوكن في قاعدة البيانات لكي يعرف السيرفر لمن يرسل
+            // حفظ التوكن في مسار tokens لكي يستخدمه السيرفر
             db.ref('tokens/' + currentToken).set(true);
             alert("تم تفعيل الإشعارات بنجاح!");
         } else {
@@ -38,7 +39,7 @@ document.getElementById('enable-notifications').addEventListener('click', async 
     }
 });
 
-// 3. الاستماع للرسائل الجديدة وعرضها لحظياً
+// الاستماع للرسائل وعرضها
 const chatBox = document.getElementById('chat-box');
 db.ref('messages').on('child_added', (snapshot) => {
     const data = snapshot.val();
@@ -46,10 +47,10 @@ db.ref('messages').on('child_added', (snapshot) => {
     msgElement.className = 'message';
     msgElement.innerHTML = `<strong>${data.sender}:</strong> ${data.text}`;
     chatBox.appendChild(msgElement);
-    chatBox.scrollTop = chatBox.scrollHeight; // التمرير للأسفل تلقائياً
+    chatBox.scrollTop = chatBox.scrollHeight;
 });
 
-// 4. إرسال رسالة جديدة
+// إرسال رسالة
 document.getElementById('send-btn').addEventListener('click', () => {
     const text = document.getElementById('msg-input').value;
     const sender = document.getElementById('sender-name').value || "مجهول";
@@ -58,8 +59,8 @@ document.getElementById('send-btn').addEventListener('click', () => {
         db.ref('messages').push({
             sender: sender,
             text: text,
-            senderToken: currentToken, // نرسل التوكن لتجنب إرسال إشعار لنفس الشخص
-            timestamp: firebase.database.ServerValue.TIMESTAMP // مهم جداً للسيرفر
+            senderToken: currentToken, // لتجنب إرسال إشعار لك عن رسالتك
+            timestamp: firebase.database.ServerValue.TIMESTAMP
         });
         document.getElementById('msg-input').value = "";
     }
